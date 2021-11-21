@@ -21,23 +21,48 @@ int main()
     printf("Error: Failed initialization proces!\n");
   }
 
-  float vertices[] = {                                                   // and colors + texcoords
-                      0.5f, 0.5f, -2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
-                      0.5f, -0.5f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
-                      -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-                      -0.5f, 0.5f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+  float vertices[] = {
+      // front
+      -1.0, -1.0, 1.0, 0.5f, 0.5f, 0.0f,
+      1.0, -1.0, 1.0, 0.5f, 0.5f, 0.0f,
+      1.0, 1.0, 1.0, 0.5f, 0.5f, 0.0f,
+      -1.0, 1.0, 1.0, 0.5f, 0.5f, 0.0f,
+      // back
+      -1.0, -1.0, -1.0, 0.5f, 0.5f, 0.0f,
+      1.0, -1.0, -1.0, 0.5f, 0.5f, 0.0f,
+      1.0, 1.0, -1.0, 0.5f, 0.5f, 0.0f,
+      -1.0, 1.0, -1.0, 0.5f, 0.5f, 0.0f //
+  };
 
-  unsigned int indices[] = {0, 1, 3, 1, 2, 3};
+  unsigned int indices[] = {
+      // front
+      0, 1, 2,
+      2, 3, 0,
+      // right
+      1, 5, 6,
+      6, 2, 1,
+      // back
+      7, 6, 5,
+      5, 4, 7,
+      // left
+      4, 0, 3,
+      3, 7, 4,
+      // bottom
+      4, 5, 1,
+      1, 0, 4,
+      // top
+      3, 2, 6,
+      6, 7, 3 //
+  };
 
-  unsigned int tex = createTex("container.jpg");
+  // unsigned int tex = createTex("container.jpg");
 
   unsigned int vbo = createVBO();
   setBufferData(vbo, sizeof(vertices), vertices);
 
   unsigned int vao = createVAO();
-  addAttrib(vao, vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0);
-  addAttrib(vao, vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float)));
-  addAttrib(vao, vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+  addAttrib(vao, vbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void *)0);
+  addAttrib(vao, vbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
 
   unsigned int ebo = createEBO();
   setElementBufferData(ebo, sizeof(indices), indices);
@@ -51,7 +76,7 @@ int main()
   {
     clearWindow(0.2f, 0.3f, 0.3f, 1.0f);
 
-    draw(cam, shader, vao, ebo, tex, 6, 0);
+    draw(cam, shader, vao, ebo, 0, 6 * 6, 0);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
