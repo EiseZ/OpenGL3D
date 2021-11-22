@@ -14,6 +14,7 @@
 #include "vertexbuffer.h"
 #include "texture.h"
 #include "block.h"
+#include "world.h"
 
 int main()
 {
@@ -23,33 +24,27 @@ int main()
     printf("Error: Failed initialization proces!\n");
   }
 
-  // unsigned int tex = createTex("container.jpg");
-
-  // unsigned int vbo = createVBO();
-  // setBufferData(vbo, sizeof(vertices), vertices);
-
-  // unsigned int vao = createVAO();
-  // addAttrib(vao, vbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void *)0);
-  // addAttrib(vao, vbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
-
-  // unsigned int ebo = createEBO();
-  // setElementBufferData(ebo, sizeof(indices), indices);
-
   unsigned int shader = genShader();
 
   struct Camera cam = createCamera(90.0f, WIDTH, HEIGHT, 0.1f, 100.0f);
   calculateMVP(&cam);
 
-  struct Block block = createBlock(1, 1, 1);
-  struct Block block2 = createBlock(0, 0, 0);
+  // struct Block blocks[] = {
+  //     createBlock(0, 0, 0),
+  //     createBlock(1, 1, 1),
+  //     createBlock(2, 1, 1),
+  //     createBlock(3, 1, 1),
+  //     createBlock(4, 1, 1),
+  //     createBlock(5, 1, 1),
+  // };
+  struct World world = createWorld();
 
   while (!glfwWindowShouldClose(window))
   {
     clearWindow(0.2f, 0.3f, 0.3f, 1.0f);
 
-    // draw(cam, shader, vao, ebo, 0, sizeof(indices) / sizeof(unsigned int), 0);
-    renderBlock(block, shader, cam);
-    renderBlock(block2, shader, cam);
+    // drawBlockArray(blocks, sizeof(blocks) / sizeof(struct Block), shader, cam);
+    drawWord(&world, shader, cam);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

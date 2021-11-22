@@ -10,7 +10,11 @@ struct Block
   int xPos;
   int yPos;
   int zPos;
+  int chunkX;
+  int chunkY;
+  int chunkZ;
 };
 
-struct Block createBlock(int xPos, int yPos, int zPos);
-void renderBlock(struct Block block, unsigned int shader, struct Camera cam);
+struct Block createBlock(int xPos, int yPos, int zPos, int chunkX, int chunkY, int chunkZ);
+void drawBlock(struct Block block, unsigned int shader, struct Camera cam);
+void drawBlockArray(struct Block blocks[], unsigned int blockAmount, unsigned int shader, struct Camera cam);

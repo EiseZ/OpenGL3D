@@ -34,16 +34,19 @@ unsigned int indices[] = {
     6, 7, 3 //
 };
 
-struct Block createBlock(int xPos, int yPos, int zPos)
+struct Block createBlock(int xPos, int yPos, int zPos, int chunkX, int chunkY, int chunkZ)
 {
   struct Block block;
   block.xPos = xPos;
   block.yPos = yPos;
   block.zPos = zPos;
+  block.chunkX = chunkX;
+  block.chunkY = chunkY;
+  block.chunkZ = chunkZ;
   return block;
 }
 
-void renderBlock(struct Block block, unsigned int shader, struct Camera cam)
+void drawBlock(struct Block block, unsigned int shader, struct Camera cam)
 {
   float currentVertices[24];
   for (int i = 0; i < sizeof(vertices) / sizeof(float); i++)
@@ -72,4 +75,12 @@ void renderBlock(struct Block block, unsigned int shader, struct Camera cam)
   setElementBufferData(ebo, sizeof(indices), indices);
 
   draw(cam, shader, vao, ebo, 0, sizeof(indices) / sizeof(unsigned int), 0);
+}
+
+void drawBlockArray(struct Block blocks[], unsigned int blockAmount, unsigned int shader, struct Camera cam)
+{
+  for (int i = 0; i < blockAmount; i++)
+  {
+    drawBlock(blocks[i], shader, cam);
+  }
 }

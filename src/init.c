@@ -59,6 +59,8 @@ GLFWwindow *init(int enableWireframe)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  glEnable(GL_CULL_FACE);
+
   if (enableWireframe)
   {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
